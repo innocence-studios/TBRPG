@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CombatEncounter" load_steps=4 format=3 uid="uid://xu5yuy418b0j"]
+
+[ext_resource type="Script" path="res://Enemies/Resources/Enemy.gd" id="1_4nkn5"]
+[ext_resource type="Resource" uid="uid://bmjimxw1j5qs4" path="res://Enemies/Resources/Slime.tres" id="2_ckmvh"]
+[ext_resource type="Script" path="res://Scenes/Resources/EN_Combat.gd" id="3_gnnlg"]
+
+[resource]
+script = ExtResource("3_gnnlg")
+enemies = Array[ExtResource("1_4nkn5")]([ExtResource("2_ckmvh"), ExtResource("2_ckmvh"), ExtResource("2_ckmvh")])

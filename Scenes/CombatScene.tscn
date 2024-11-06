@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://hruea7lq4l7e"]
+
+[ext_resource type="Script" path="res://Scenes/CombatScene.gd" id="1_ougc1"]
+[ext_resource type="Resource" uid="uid://xu5yuy418b0j" path="res://Scenes/Resources/3Slimes.tres" id="2_41h6s"]
+
+[node name="CombatScene" type="Node2D"]
+script = ExtResource("1_ougc1")
+combat = ExtResource("2_41h6s")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="end_enemy_turn" from="." to="." method="_player_turn"]
+[connection signal="end_player_turn" from="." to="." method="_enemy_turn"]
