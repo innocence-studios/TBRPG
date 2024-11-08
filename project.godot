@@ -11,5 +11,10 @@ config_version=5
 [application]
 
 config/name="TBRPG"
+run/main_scene="res://Overworld/overworld.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+mouse_cursor/custom_image="res://Overworld/Tiny Swords/Tiny Swords (Update 010)/UI/Pointers/01.png"

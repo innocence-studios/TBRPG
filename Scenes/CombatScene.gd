@@ -32,11 +32,20 @@ func _enemy_turn():
 	emit_signal("end_enemy_turn")
 
 func _player_turn():
-	#enemy_list["slime0"]["health"]=enemy_list[0]["health"]-damage
-	#for e in enemy_list:
-		#print(
-			#enemy_list[e]["helath"]
-		#)
+	enemy_list[enemy_list.keys()[0]]["health"]=enemy_list[enemy_list.keys()[0]]["health"]-damage
+	if enemy_list[enemy_list.keys()[0]]["health"]<=0:
+		print("pouet")
+		print(
+			enemy_list.erase(
+				enemy_list[
+					enemy_list.keys()[0]
+					]
+				)
+			)
+	for e in enemy_list:
+		print(
+			enemy_list[e]["health"]
+		)
 	await player_end_turn
 	emit_signal("end_player_turn")
 
