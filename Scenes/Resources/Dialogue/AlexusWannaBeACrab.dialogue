@@ -1,0 +1,16 @@
+~ Start
+Alexus: I wanna be a crab ! 
+Alexus: Do you ?
+- Yep. => Yep
+- Nop. => Nop
+- You're strange. => UStrange
+- I love Surimi. => Insult
+
+~ Yep
+Alexus: Cool ! I realy do think crabs are so much better than humans ! => END
+~ Nop
+Alexus: Well I encourage you to reconsider. Crabs are great ! => END
+~ UStrange
+Alexus: [shake rate=20 level=10] Fuck you ! [/shake] => END
+~ Insult
+Alexus: [wave amp=25 freq=2]I'm gonna go cry...[/wave]

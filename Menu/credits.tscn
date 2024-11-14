@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://cslei1epnc23x"]
+
+[ext_resource type="Script" path="res://Menu/credits.gd" id="1_jov14"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jov14")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -768.0
+offset_bottom = 1058.0
+grow_horizontal = 2
+scale = Vector2(3, 3)
+text = "REMPARIA
+Une histoire basée sur des faits presque réels.
+ Mais pas trop non plus.
+
+Histoire : Adam, Matt, Léo, Alexis
+Univers : Adam, Matt, Léo, Alexis
+Musique : Léo
+Code : Alexis
+Art : Madi, Matt
+
+Distraction : Nahlân
+“Achat” de rafraîchissements : Nahlân
+
+Cavigus : Matthieu Caviggia
+Madizis : Madison Bride
+Adamus : Adam Dahoud
+Léorus : Léo Pignol
+Alexus : Alexis Le Viavant
+Anhalus : Nahlan Arassus
+
+Inquisiteur Barrus : Joël Barrat
+Harnarn le Roi Dragon : ??? Harnan
+Roi Narellius : Didier Narelli 
+
+Combonus : Benjamin Cambon
+Linus : Lina ???
+Linis : Line Dahoud
+Benmusar : Mohamed Benmoussa
+Tonus : Tony Barelli
+Sagor : ??? Sage
+Toubor : ??? Toubon
+Pintus : Alex Pinto
+Hadjadj Hadjadj : ??? Hadjedj
+Maksar : Maksen Tachouaft
+Neilala : Neil Ulmer-Massebeuf
+Valis : Valentina ???
+Massastote : John Massa
+Rogelus : ??? Rogel
+Mattus : Mattéo Bertolino
+Guigus : Guillaume Roucoule
+Nathanius : Nathan Sansonetti-Bremond
+Galtias : ??? Galtier
+Arabtanus : ??? Arabtani
+Yacinus : Yacine ???
+Loïcus : Loïc ???
+Johnus : John"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
