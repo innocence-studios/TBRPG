@@ -1,25 +1,10 @@
-[gd_scene load_steps=18 format=4 uid="uid://cvnncpmfaes4o"]
+[gd_scene load_steps=16 format=3 uid="uid://cvnncpmfaes4o"]
 
 [ext_resource type="Script" path="res://Overworld/player.gd" id="1_g47cd"]
 [ext_resource type="Script" path="res://Overworld/overworld.gd" id="1_xbvl4"]
 [ext_resource type="Texture2D" uid="uid://b74ywcgn8g0bf" path="res://Overworld/Tiny Swords/Tiny Swords (Update 010)/Factions/Knights/Troops/Warrior/Red/Warrior_Red.png" id="3_6luxx"]
-[ext_resource type="Texture2D" uid="uid://bi7ujgf87cwu6" path="res://Overworld/6RjPlv.png" id="5_bm1hq"]
+[ext_resource type="Script" path="res://Overworld/terrain.gd" id="5_h6jj6"]
 [ext_resource type="Script" path="res://Overworld/Interactable.gd" id="5_tkh5m"]
-
-[sub_resource type="Animation" id="Animation_rcjon"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
 
 [sub_resource type="Animation" id="Animation_8rkq5"]
 resource_name = "Idle"
@@ -37,6 +22,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_rcjon"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_3uyxi"]
@@ -59,8 +59,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1r2rw"]
 _data = {
-&"RESET": SubResource("Animation_rcjon"),
 &"Idle": SubResource("Animation_8rkq5"),
+&"RESET": SubResource("Animation_rcjon"),
 &"Run": SubResource("Animation_3uyxi")
 }
 
@@ -94,18 +94,6 @@ node_connections = [&"Transition", 0, &"Animation", &"Transition", 1, &"Animatio
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v20w5"]
 size = Vector2(64, 64)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nmsli"]
-texture = ExtResource("5_bm1hq")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_l6a0p"]
-tile_shape = 1
-tile_layout = 5
-tile_offset_axis = 1
-tile_size = Vector2i(32, 16)
-sources/0 = SubResource("TileSetAtlasSource_nmsli")
 
 [node name="Overworld" type="Node2D"]
 process_mode = 1
@@ -150,18 +138,7 @@ script = ExtResource("5_tkh5m")
 position = Vector2(200, 32)
 shape = SubResource("RectangleShape2D_v20w5")
 
-[node name="Tilesets" type="Node2D" parent="."]
-
-[node name="F1" type="TileMapLayer" parent="Tilesets"]
-tile_map_data = PackedByteArray("AAAFAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAP//AAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAHAAMAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_l6a0p")
-
-[node name="F2" type="TileMapLayer" parent="Tilesets"]
-position = Vector2(0, 8)
-tile_map_data = PackedByteArray("AAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_l6a0p")
-
-[node name="F3" type="TileMapLayer" parent="Tilesets"]
-position = Vector2(0, 32)
-tile_map_data = PackedByteArray("AAACAP//AAAAAAAAAAADAP//AAAAAAAAAAA=")
-tile_set = SubResource("TileSet_l6a0p")
+[node name="Terrain" type="Node2D" parent="."]
+script = ExtResource("5_h6jj6")
+load_file = "test"
+metadata/_custom_type_script = ExtResource("5_h6jj6")

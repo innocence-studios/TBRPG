@@ -1,38 +1,22 @@
 extends Node2D
+class_name Terrain
 
-@export_file("*.isoterrain") var terrain
-var parsed_terrain : Array[Array]
-var test_terrain : Array[Array] = [
-	[[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,1,1,0,0,0],
-	[0,0,0,1,1,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0]],
-	[[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,1,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0]]
-]
 
-func _ready() -> void:
-	_parse_file()
-	_create_tilemaps()
-
-func _parse_file() -> void:
-	if not terrain:
-		parsed_terrain = test_terrain
-		return
-func _create_tilemaps() -> void:
+@export var load_file : String
+func _load():
+	for c in get_children():
+		c.free()
+	var file = FileAccess.open("res://Overworld/Maps/"+load_file+".isoterrain", FileAccess.READ).get_as_text()
+	var data = JSON.parse_string(file)
 	var i = 0
-	for f in parsed_terrain:
+	for f in data:
 		var tilemap = TileMapLayer.new()
-		tilemap.name = "f"+str(i)
 		add_child(tilemap)
+		tilemap.name = str("Floor",i)
+		tilemap.tile_set = load("res://Overworld/Tiles.tres")
+		tilemap.position.y = -8*i
+		tilemap.owner = self
+		tilemap.set_tile_map_data_from_array(f)
 		i+=1
+
+func _ready():_load()
