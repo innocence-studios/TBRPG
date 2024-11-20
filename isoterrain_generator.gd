@@ -20,7 +20,7 @@ func _save():
 	var file = FileAccess.open("res://Overworld/Maps/"+save_file+".isoterrain", FileAccess.WRITE)
 	var result = []
 	for f in get_children():
-		result.append(f.get_tile_map_data_as_array())
+		result.append(f.tile_map_data)
 	file.store_string(str(result))
 
 @export var load_file : String

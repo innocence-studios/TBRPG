@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_13"
+type="Resource"
+uid="uid://p1lyuvgx48vd"
+path="res://.godot/imported/AlexusWannaBeACrab.dialogue-80cbeaee9b53d7a2b67a235104da0251.tres"
+
+[deps]
+
+source_file="res://Dialogues/AlexusWannaBeACrab.dialogue"
+dest_files=["res://.godot/imported/AlexusWannaBeACrab.dialogue-80cbeaee9b53d7a2b67a235104da0251.tres"]
+
+[params]
+
+defaults=true
