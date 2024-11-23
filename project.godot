@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TBRPG"
-run/main_scene="res://Overworld/overworld.tscn"
+run/main_scene="res://Overworld/NewTestScene.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://Logo.png"
 
@@ -26,7 +26,6 @@ general/balloon_path="res://addons/dialogue_manager/example_balloon/example_ball
 [display]
 
 window/stretch/mode="viewport"
-mouse_cursor/custom_image="res://Overworld/Tiny Swords/Tiny Swords (Update 010)/UI/Pointers/01.png"
 
 [editor_plugins]
 

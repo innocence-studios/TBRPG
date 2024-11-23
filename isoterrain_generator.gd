@@ -10,8 +10,7 @@ func _regenerate_tilemaps():
 		var tilemap = TileMapLayer.new()
 		add_child(tilemap)
 		tilemap.name = str("Floor",f)
-		tilemap.tile_set = load("res://Overworld/Tiles.tres")
-		tilemap.position.y = -8*f
+		tilemap.tile_set = load("res://Overworld/Assets/Base.tres")
 		tilemap.owner = self
 
 @export var save_file : String
@@ -35,8 +34,7 @@ func _load():
 		var tilemap = TileMapLayer.new()
 		add_child(tilemap)
 		tilemap.name = str("Floor",i)
-		tilemap.tile_set = load("res://Overworld/Tiles.tres")
-		tilemap.position.y = -8*i
+		tilemap.tile_set = load("res://Overworld/Assets/Base.tres")
 		tilemap.owner = self
 		tilemap.set_tile_map_data_from_array(f)
 		i+=1
