@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4v4gi3aqtxcq"]
+
+[ext_resource type="Script" path="res://Overworld/terrain.gd" id="1_rkpc3"]
+
+[sub_resource type="GDScript" id="GDScript_rkpc3"]
+resource_name = "TestScen"
+script/source = "extends Node2D
+
+var _tile_groups = [
+	[
+		Vector3i(5, -4, 1),
+		Vector3i(6, -4, 1),
+		Vector3i(5, -3, 1),
+		Vector3i(6, -3, 1),
+		Vector3i(5, -4, 2),
+		Vector3i(6, -4, 2),
+		Vector3i(5, -3, 2),
+		Vector3i(6, -3, 2),
+	]
+]
+
+var _tile_groups_lookup = {
+	Vector3i(5, -4, 1): _tile_groups[0],
+	Vector3i(6, -4, 1): _tile_groups[0],
+	Vector3i(5, -3, 1): _tile_groups[0],
+	Vector3i(6, -3, 1): _tile_groups[0],
+	Vector3i(5, -4, 2): _tile_groups[0],
+	Vector3i(6, -4, 2): _tile_groups[0],
+	Vector3i(5, -3, 2): _tile_groups[0],
+	Vector3i(6, -3, 2): _tile_groups[0],
+}
+
+func _process(_delta):
+	var mpos = get_global_mouse_position()
+	var tile = $Terrain.select_tile($Terrain.render.to_local(mpos))
+	
+	var group = _tile_groups_lookup.get(tile, [tile])
+	$Terrain.highlight_tiles(group)
+"
+
+[node name="TestScene" type="Node2D"]
+script = SubResource("GDScript_rkpc3")
+
+[node name="Terrain" type="Node2D" parent="."]
+script = ExtResource("1_rkpc3")
+load_file = "test2"
+metadata/_custom_type_script = ExtResource("1_rkpc3")
