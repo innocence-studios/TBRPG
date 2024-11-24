@@ -48,14 +48,12 @@ func _ready() -> void:
 		render.add_layer(i)
 		render.set_layer_y_sort_enabled(i, true)
 		render.set_layer_z_index(i, i)
-		#render.position.y = -i*32
 		
 		# Sprites from Highlight may need to sit behind some cells. This means
 		# we want to associate the z-layer data along-side the cell coordinates.
 		highlight.add_layer(i)
 		highlight.set_layer_y_sort_enabled(i, true)
 		highlight.set_layer_z_index(i, i)
-		#highlight.position.y = -i*32
 		
 		# Copy corresponding textures to the rendered TileMap.
 		for c in base.get_used_cells(i):
@@ -74,7 +72,7 @@ const _INVALID_TILE = Vector3i(-1, -1, -1)
 var _highlights: Array[Vector3i]
 
 func _get_selected_tile(local: Vector2, stack: Array[Vector3i]) -> Vector3i:
-	var origin = Vector2(32, 16)
+	var origin = Vector2(16, 8)
 	for actual in stack:
 		# Calculate which pixel to inspect in the sprite.
 		var offset: Vector2i = local - render.map_to_local(
@@ -88,7 +86,6 @@ func _get_selected_tile(local: Vector2, stack: Array[Vector3i]) -> Vector3i:
 			source_cell.x * source.texture_region_size.x,
 			source_cell.y * source.texture_region_size.y,
 		)
-		print(tile_origin)
 		var check = source.texture.get_image().get_pixelv(tile_origin + offset)
 		
 		# We have an opaque part of the block and cannot check tiles lower in the stack.
@@ -157,5 +154,3 @@ func highlight_tiles(cells: Array):
 				Vector2i(c.x-c.z, c.y-c.z),
 				base.get_cell_source_id(c.z, Vector2i(c.x, c.y)),
 				base.get_cell_atlas_coords(c.z, Vector2i(c.x, c.y)))
-			print("set cell on : ",c.z, " at : ", Vector2i(c.x-c.z, c.y-c.z))
-			print(highlight.get_tile_map_data_as_array())

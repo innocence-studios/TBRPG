@@ -16,7 +16,6 @@ func add_layer(id:int):
 	move_child(layer, id)
 
 func local_to_map(pos:Vector2):
-	#print(get_child(0).local_to_map(pos))
 	return get_child(0).local_to_map(pos)
 	
 func map_to_local(pos:Vector2):

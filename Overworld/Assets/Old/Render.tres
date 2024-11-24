@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bsira0hcuvfkn"]
 
-[ext_resource type="Texture2D" uid="uid://0c7qgayp0yeu" path="res://Overworld/Assets/Old/Tiles2.png" id="1_oub5b"]
+[ext_resource type="Texture2D" uid="uid://0c7qgayp0yeu" path="res://Overworld/Assets/render2.png" id="1_oub5b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l7jva"]
 resource_name = "Tiles"

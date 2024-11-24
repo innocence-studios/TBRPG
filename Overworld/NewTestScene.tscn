@@ -6,36 +6,32 @@
 resource_name = "TestScen"
 script/source = "extends Node2D
 
-var _tile_groups = [
-	[
-		Vector3i(5, -4, 1),
-		Vector3i(6, -4, 1),
-		Vector3i(5, -3, 1),
-		Vector3i(6, -3, 1),
-		Vector3i(5, -4, 2),
-		Vector3i(6, -4, 2),
-		Vector3i(5, -3, 2),
-		Vector3i(6, -3, 2),
-	]
-]
-
-var _tile_groups_lookup = {
-	Vector3i(5, -4, 1): _tile_groups[0],
-	Vector3i(6, -4, 1): _tile_groups[0],
-	Vector3i(5, -3, 1): _tile_groups[0],
-	Vector3i(6, -3, 1): _tile_groups[0],
-	Vector3i(5, -4, 2): _tile_groups[0],
-	Vector3i(6, -4, 2): _tile_groups[0],
-	Vector3i(5, -3, 2): _tile_groups[0],
-	Vector3i(6, -3, 2): _tile_groups[0],
-}
-
+var mouse_movement = Vector2.ZERO
 func _process(_delta):
 	var mpos = get_global_mouse_position()
 	var tile = $Terrain.select_tile($Terrain.render.to_local(mpos))
 	
-	var group = _tile_groups_lookup.get(tile, [tile])
-	$Terrain.highlight_tiles(group)
+	$Terrain.highlight_tiles(Global.get_shape_from_tile(tile, [
+		Vector3i(-1, 0, 0),
+		Vector3i(1, 0, 0),
+		Vector3i(0, -1, 0),
+		Vector3i(0, 1, 0),
+		Vector3i(0, 0, 0),
+		Vector3i(-2, 0, 0),
+		Vector3i(2, 0, 0),
+		Vector3i(0, -2, 0),
+		Vector3i(0, 2, 0),
+		]))
+
+	if Input.is_action_just_pressed(\"zoom_plus\"):
+		$Camera2D.zoom += Vector2(0.1,0.1)
+	elif Input.is_action_just_pressed(\"zoom_minus\"):
+		$Camera2D.zoom -= Vector2(0.1,0.1)
+	
+	
+	if Input.is_action_pressed(\"pan\"):
+		mouse_movement = -get_global_mouse_position().normalized()
+		$Camera2D.position=lerp($Camera2D.position,$Camera2D.position+mouse_movement*4,0.1)
 "
 
 [node name="TestScene" type="Node2D"]
@@ -43,5 +39,7 @@ script = SubResource("GDScript_rkpc3")
 
 [node name="Terrain" type="Node2D" parent="."]
 script = ExtResource("1_rkpc3")
-load_file = "test2"
+load_file = "test"
 metadata/_custom_type_script = ExtResource("1_rkpc3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
