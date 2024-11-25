@@ -47,3 +47,9 @@ func get_tile_map_data_as_array():
 	for c in get_children():
 		result.append(c.tile_map_data)
 	return result
+
+func offset_layers(offset:Vector2):
+	var i = 0
+	for c in get_children():
+		c.position = i * offset
+		i += 1

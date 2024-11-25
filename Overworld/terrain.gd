@@ -48,12 +48,14 @@ func _ready() -> void:
 		render.add_layer(i)
 		render.set_layer_y_sort_enabled(i, true)
 		render.set_layer_z_index(i, i)
+		render.offset_layers(Vector2(0,8))
 		
 		# Sprites from Highlight may need to sit behind some cells. This means
 		# we want to associate the z-layer data along-side the cell coordinates.
 		highlight.add_layer(i)
 		highlight.set_layer_y_sort_enabled(i, true)
 		highlight.set_layer_z_index(i, i)
+		highlight.offset_layers(Vector2(0,8))
 		
 		# Copy corresponding textures to the rendered TileMap.
 		for c in base.get_used_cells(i):
