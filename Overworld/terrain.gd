@@ -47,14 +47,14 @@ func _ready() -> void:
 	for i in range(base.get_layers_count()):
 		render.add_layer(i)
 		render.set_layer_y_sort_enabled(i, true)
-		render.set_layer_z_index(i, i)
+		render.set_layer_z_index(i, i*2)
 		render.offset_layers(Vector2(0,8))
 		
 		# Sprites from Highlight may need to sit behind some cells. This means
 		# we want to associate the z-layer data along-side the cell coordinates.
 		highlight.add_layer(i)
 		highlight.set_layer_y_sort_enabled(i, true)
-		highlight.set_layer_z_index(i, i)
+		highlight.set_layer_z_index(i, i*2)
 		highlight.offset_layers(Vector2(0,8))
 		
 		# Copy corresponding textures to the rendered TileMap.
@@ -74,7 +74,7 @@ const _INVALID_TILE = Vector3i(-1, -1, -1)
 var _highlights: Array[Vector3i]
 
 func _get_selected_tile(local: Vector2, stack: Array[Vector3i]) -> Vector3i:
-	var origin = Vector2(16, 8)
+	var origin = Vector2(16,8) ## Real origin is 16,16, but this works better
 	for actual in stack:
 		# Calculate which pixel to inspect in the sprite.
 		var offset: Vector2i = local - render.map_to_local(
