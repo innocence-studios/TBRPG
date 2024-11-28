@@ -14,6 +14,7 @@ load_file = "test"
 metadata/_custom_type_script = ExtResource("2_4yr6h")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(455, 263)
 
 [node name="Player" type="Node2D" parent="."]
 script = ExtResource("3_d84kf")
@@ -28,6 +29,7 @@ vframes = 2
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Debug" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
