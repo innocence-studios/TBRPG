@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4v4gi3aqtxcq"]
+[gd_scene load_steps=7 format=3 uid="uid://b4v4gi3aqtxcq"]
 
 [ext_resource type="Script" uid="uid://c4uqyhdycy8m7" path="res://Scenes/Scene.gd" id="1_p75jc"]
 [ext_resource type="Script" uid="uid://bi2i3rdg2gxb5" path="res://Scenes/terrain.gd" id="2_4yr6h"]
+[ext_resource type="Texture2D" uid="uid://ddyvg8m37p4gk" path="res://Scenes/Assets/Pixel Skies/Starry Sky/Starry Sky 8 Blended.png" id="2_qswnl"]
 [ext_resource type="Texture2D" uid="uid://bohwdtkx8dfgg" path="res://Actions/Cursors/Move.png" id="2_v3fvj"]
 [ext_resource type="Script" uid="uid://bu8871w4nhu7m" path="res://Scenes/Actors/Actor.gd" id="3_d84kf"]
 [ext_resource type="Texture2D" uid="uid://uxn5r68lptk4" path="res://Scenes/Actors/Assets/Knight.png" id="3_p75jc"]
@@ -9,29 +10,31 @@
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_p75jc")
 
-[node name="ActionPlayer" type="Node" parent="."]
+[node name="ParallaxLayer" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.1, 0)
+scroll_offset = Vector2(256, 144)
+repeat_size = Vector2(307.2, 0)
+repeat_times = 6
+
+[node name="ScatteredCloudsSky" type="Sprite2D" parent="ParallaxLayer"]
+texture_filter = 2
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_qswnl")
+
+[node name="ActionPlayer" type="Node2D" parent="."]
 unique_name_in_owner = true
 
 [node name="ActionCursor" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture = ExtResource("2_v3fvj")
 
 [node name="Terrain" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_4yr6h")
-load_file = "test3"
+load_file = "test1"
 metadata/_custom_type_script = ExtResource("2_4yr6h")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Player" type="Node2D" parent="."]
-script = ExtResource("3_d84kf")
-metadata/_custom_type_script = ExtResource("3_d84kf")
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(0, -5)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("3_p75jc")
-vframes = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -61,11 +64,26 @@ unique_name_in_owner = true
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+focus_mode = 0
 text = "Action"
 
 [node name="ActionsMenu" type="PopupMenu" parent="CanvasLayer/Combat"]
 unique_name_in_owner = true
 initial_position = 1
+
+[node name="Allies" type="Node2D" parent="."]
+
+[node name="Player" type="Node2D" parent="Allies"]
+script = ExtResource("3_d84kf")
+metadata/_custom_type_script = ExtResource("3_d84kf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Allies/Player"]
+position = Vector2(0, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_p75jc")
+vframes = 2
+
+[node name="Enemies" type="Node2D" parent="."]
 
 [connection signal="pressed" from="CanvasLayer/Combat/Action" to="." method="_on_action_pressed"]
 [connection signal="index_pressed" from="CanvasLayer/Combat/ActionsMenu" to="." method="_on_actions_menu_index_pressed"]

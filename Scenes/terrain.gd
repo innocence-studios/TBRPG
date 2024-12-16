@@ -7,7 +7,6 @@ var highlight
 var mask
 var heightmap
 
-
 @export var load_file : String
 func _load():
 	for c in get_children():
@@ -69,89 +68,28 @@ func _ready() -> void:
 				Vector2i(c.x-i, c.y-i),
 				base.get_cell_source_id(i, c),
 				atlas)
-				
-		
 
-
-
-const _VOID_ATLAS_COORDS = Vector2i(0, 0)
 const _INVALID_TILE = Vector3i(-1, -1, -1)
-
 var _highlights: Array[Vector3i]
 
-func _get_selected_tile(local: Vector2, stack: Array[Vector3i]) -> Vector3i:
-	var origin = Vector2(16,8) ## Real origin is 16,16, but this works better
-	for actual in stack:
-		# Calculate which pixel to inspect in the sprite.
-		var offset: Vector2i = local - render.map_to_local(
-				Vector2i(actual.x-actual.z, actual.y-actual.z)) + origin
-		
-		var atlas_cell = base.get_cell_atlas_coords(actual.z, Vector2i(actual.x, actual.y))
-		var source_id = base.get_cell_source_id(actual.z, Vector2i(actual.x, actual.y))
-		var source = mask.tile_set.get_source(source_id)
-		var source_cell = source.get_tile_at_coords(atlas_cell)
-		var tile_origin = Vector2i(
-			source_cell.x * source.texture_region_size.x,
-			source_cell.y * source.texture_region_size.y,
-		)
-		var check = source.texture.get_image().get_pixelv(tile_origin + offset)
-		
-		# We have an opaque part of the block and cannot check tiles lower in the stack.
-		if check == Color.BLACK:
-			break
-		
-		# We have found a target tile.
-		if check == Color.WHITE:
-			return actual
-			
-		# Else, we have hit a transparent part of the mask, and should continue
-		# to the next tile in the stack.
-	
-	return _INVALID_TILE
-
-func _get_neighbors_apparent(local: Vector2) -> Array[Vector2i]:
-	var apparent = render.local_to_map(local)
-	var offset = local - render.map_to_local(apparent)
-	# If X < 0, then the cursor lies on the left half of the tile; this means
-	# that we need to check for partial left-side occlusion.
-	if offset.x < 0:
-		return [
-			apparent,                                  # D
-			Vector2i(apparent.x - 1, apparent.y),      # B
-			Vector2i(apparent.x - 1, apparent.y - 1),  # A
-
-		]
-	return [
-			apparent,                                  # D
-			Vector2i(apparent.x, apparent.y - 1),      # C
-			Vector2i(apparent.x - 1, apparent.y - 1),  # A
-	]
-
-func _cell_is_occupied(layer: int, actual: Vector2i) -> bool:
-	return base.get_cell_source_id(layer, actual) >= 0 and (
-		base.get_cell_atlas_coords(layer, actual) != _VOID_ATLAS_COORDS)
-
-func _get_raytrace_stack(apparent_neighbors: Array[Vector2i]) -> Array[Vector3i]:
-	var stack: Array[Vector3i] = []
-	for layer in range(base.get_layers_count() - 1, -1, -1):
-		for apparent in apparent_neighbors:
-			var actual = Vector2i(
-				apparent.x + layer,
-				apparent.y + layer)
-			if _cell_is_occupied(layer, actual):
-				stack.append_array([Vector3i(actual.x, actual.y, layer)])
-	return stack
-
-func select_tile(local: Vector2) -> Vector3i:
-	return _get_selected_tile(
-		local,
-		_get_raytrace_stack(
-			_get_neighbors_apparent(local)))
-
 func get_top_tile(coords:Vector2i):
-	return heightmap[coords.x][coords.y]
-	
-	
+	if heightmap.size()>coords.x:
+		if heightmap[coords.x].size()>coords.y:
+			return heightmap[coords.x][coords.y]
+	return -1
+
+func get_shape_from_tile(coords:Vector3i, shape:Array[Vector3i], rotation:int) -> Array[Vector3i] :
+	var result : Array[Vector3i] = [coords]
+	for i in shape:
+		if rotation == 0:
+			result.append(Vector3i(coords.x+i.x,coords.y+i.y,get_top_tile(Vector2i(coords.x+i.x,coords.y+i.y))))
+		elif rotation == 1:
+			result.append(Vector3i(coords.x+i.y,coords.y+i.x,get_top_tile(Vector2i(coords.x+i.y,coords.y+i.x))))
+		elif rotation == 2:
+			result.append(Vector3i((coords.x-i.x),(coords.y-i.y),get_top_tile(Vector2i(coords.x-i.x,coords.y-i.y))))
+		elif rotation == 3:
+			result.append(Vector3i((coords.x-i.y),(coords.y-i.x),get_top_tile(Vector2i(coords.x-i.y,coords.y-i.x))))
+	return result
 
 func highlight_tiles(cells: Array):
 	for c in _highlights:

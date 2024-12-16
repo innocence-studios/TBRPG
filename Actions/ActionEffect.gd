@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ActionEffect
 
 var target : Array[Vector3i] = [Vector3i.ZERO]

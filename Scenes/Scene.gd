@@ -1,10 +1,8 @@
 extends Node2D
 
-var actions = ["move"]
+var actions = ["move", "fire"]
 
 var current_action : Action
-
-var mouse_select = true
 
 enum PROMPTS {
 	NONE,
@@ -20,7 +18,6 @@ var cross : Array[Vector3i] = [
 		Vector3i(1, 0, 0),
 		Vector3i(0, -1, 0),
 		Vector3i(0, 1, 0),
-		Vector3i.ZERO,
 		Vector3i(-2, 0, 0),
 		Vector3i(2, 0, 0),
 		Vector3i(0, -2, 0),
@@ -30,7 +27,7 @@ var crown : Array[Vector3i] = [
 	Vector3i(-3,3,0),Vector3i(0,3,0),Vector3i(3,3,0),
 	Vector3i(-2,2,0),Vector3i(0,2,0),Vector3i(2,2,0),
 	Vector3i(-2,1,0),Vector3i(0,1,0),Vector3i(2,1,0),
-	Vector3i(-2,0,0),Vector3i(-1,0,0),Vector3i.ZERO,Vector3i(1,0,0),Vector3i(2,0,0),
+	Vector3i(-2,0,0),Vector3i(-1,0,0),Vector3i(1,0,0),Vector3i(2,0,0),
 	Vector3i(-2,-1,0),Vector3i(-1,-1,0),Vector3i(0,-1,0),Vector3i(1,-1,0),Vector3i(2,-1,0),]
 var shaft : Array[Vector3i] = [
 	Vector3i(0, 5, 0),
@@ -38,35 +35,21 @@ var shaft : Array[Vector3i] = [
 	Vector3i(-1,3,0),Vector3i(0,3,0),Vector3i(1,3,0),
 	Vector3i(-1,2,0),Vector3i(0,2,0),Vector3i(1,2,0),
 	Vector3i(-1,1,0),Vector3i(0,1,0),Vector3i(1,1,0),
-	Vector3i(-1,0,0),Vector3i.ZERO,Vector3i(1,0,0),
+	Vector3i(-1,0,0),Vector3i(1,0,0),
 	Vector3i(-3,-1,0),Vector3i(-2,-1,0),Vector3i(3,-1,0),Vector3i(2,-1,0),
 	Vector3i(-4,-2,0),Vector3i(-1,-2,0),Vector3i(1,-2,0),Vector3i(4,-2,0),
 	Vector3i(-4,-3,0),Vector3i(-1,-3,0),Vector3i(1,-3,0),Vector3i(4,-3,0),
 	Vector3i(-3,-4,0),Vector3i(-2,-4,0),Vector3i(3,-4,0),Vector3i(2,-4,0),]
-var single_dot : Array[Vector3i] = [Vector3i.ZERO]
 
-var highlights : Array = []
-var tile
-var validation_tile = Vector3i(0,0,0)
+var tile = Vector3i.ZERO
+var target : Array[Vector3i] = [Vector3i.ZERO]
+
 func _process(_delta):
-	if Input.is_action_just_pressed("zoom_plus"):
-		$Camera2D.zoom += Vector2(0.1,0.1)
-	elif Input.is_action_just_pressed("zoom_minus"):
-		$Camera2D.zoom -= Vector2(0.1,0.1)
-		
-	if Input.is_action_pressed("ui_up") and $Camera2D.position.y >= -120:
-		$Camera2D.position.y-=4
-	if Input.is_action_pressed("ui_down") and $Camera2D.position.y <= 480:
-		$Camera2D.position.y+=4
-	if Input.is_action_pressed("ui_left") and $Camera2D.position.x >= -120:
-		$Camera2D.position.x-=4
-	if Input.is_action_pressed("ui_right") and $Camera2D.position.x <= 480:
-		$Camera2D.position.x+=4
-		
-	if Input.is_action_just_pressed("switch_selection_mode"):
-		mouse_select = !mouse_select
-		
 	%FPS.text=str(Engine.get_frames_per_second())
+		
+	var camera_motion = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
+	$Camera2D.position += camera_motion*4
+		
 	
 	prompt()
 	
@@ -80,62 +63,57 @@ func _on_action_pressed() -> void:
 
 func _on_actions_menu_index_pressed(index: int) -> void:
 	current_prompt = PROMPTS.SELECTTILE
-	current_action = load("Actions/"+%ActionsMenu.get_item_text(index)+".tres")
+	current_action = load("Actions/Resources/"+%ActionsMenu.get_item_text(index)+".tres")
 	
 	%ActionPlayer.set_script(current_action.action_script)
-	%ActionPlayer.caster = $Player
+	%ActionPlayer.caster = $Allies.get_child(0)
+	%ActionCursor.texture = load(current_action.cursor)
 	
 	%ActionsMenu.visible = false
 
 func prompt():
 	match current_prompt:
-		
+
 		PROMPTS.NONE:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			validation_tile = Vector3i.ZERO
-			
-			highlights = []
-			$Terrain.highlight_tiles(highlights)
-			
+			target = [Vector3i.ZERO]
+			$Terrain.highlight_tiles([])
 			%Action.disabled = false
-			
+			%ActionCursor.visible = false
+
 		PROMPTS.SELECTTILE:
-			validation_tile = Vector3i.ZERO
-			
 			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+			target = [Vector3i.ZERO]
 			
-			if mouse_select:
-				var mpos = get_global_mouse_position()
-				tile = $Terrain.select_tile($Terrain.render.to_local(mpos))
-			else:
-				var tile2d = select_tile(tile)
-				print("tile : ",str(tile),", tile2D : ",str(tile2d),", height : ",str($Terrain.get_top_tile(tile2d)))
+			var tile2d = select_tile(tile)
+			if $Terrain.get_top_tile(tile2d) != -1:
 				tile = Vector3i(tile2d.x, tile2d.y, $Terrain.get_top_tile(tile2d))
-			highlights = Global.get_shape_from_tile(tile, single_dot, 3)
-			$Terrain.highlight_tiles(highlights)
+			
+				
+			
+			$Terrain.highlight_tiles(%Terrain.get_shape_from_tile(tile, current_action.shape, 3))
 			
 			if Input.is_action_just_pressed("escape"):
 				current_prompt = PROMPTS.NONE
 				
 			if tile:
-				if Input.is_action_just_pressed("click"):
-					$ActionPlayer.target[0].x = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).x
-					$ActionPlayer.target[0].y = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).y
-					$ActionPlayer.target[0].z = tile.z 
-					validation_tile = tile
+				if Input.is_action_just_pressed("accept"):
+					target = %Terrain.get_shape_from_tile(tile, current_action.shape, 3)
 					
-					$ActionCursor.global_position.x = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).x
-					$ActionCursor.global_position.y = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).y
-					$ActionCursor.global_position.y -= (tile.z+1) * 8
-					$ActionCursor.z_index = (tile.z*2)+2
+					%ActionCursor.global_position.x = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).x
+					%ActionCursor.global_position.y = $Terrain.render.map_to_local(Vector2(tile.x, tile.y)).y
+					%ActionCursor.global_position.y -= (tile.z+1) * 8
+					%ActionCursor.z_index = (tile.z*2)+2
+					%ActionCursor.visible = true
 					
 					current_prompt = PROMPTS.VALIDATETILE
-					
+
 		PROMPTS.VALIDATETILE:
 			
 			if Input.is_action_just_pressed("accept"):
+				%ActionPlayer.target = target
 				%ActionPlayer.start()
-				validation_tile = Vector3i.ZERO
+				target = [Vector3i.ZERO]
 				current_prompt = PROMPTS.NONE
 			elif Input.is_action_just_pressed("escape"):
 				current_prompt = PROMPTS.SELECTTILE

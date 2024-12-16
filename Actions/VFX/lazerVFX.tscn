@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://j0wfhjk4pbym"]
+
+[sub_resource type="GDScript" id="GDScript_jx6fx"]
+resource_name = "LazerVFX"
+script/source = "extends Node2D
+
+func _ready() -> void:
+	$GPUParticles2D.emitting = true
+	
+func _on_gpu_particles_2d_finished() -> void:
+	queue_free()
+"
+
+[sub_resource type="Gradient" id="Gradient_jx6fx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.25, 0.75)
+colors = PackedColorArray(0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6irs4"]
+gradient = SubResource("Gradient_jx6fx")
+width = 8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jx6fx"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -100, 0)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+
+[node name="lazerVFX" type="Node2D"]
+script = SubResource("GDScript_jx6fx")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1
+lifetime = 4.0
+one_shot = true
+fixed_fps = 60
+visibility_rect = Rect2(-4, -100, 8, 100)
+trail_enabled = true
+trail_lifetime = 4.0
+trail_sections = 75
+trail_section_subdivisions = 1
+texture = SubResource("GradientTexture1D_6irs4")
+process_material = SubResource("ParticleProcessMaterial_jx6fx")

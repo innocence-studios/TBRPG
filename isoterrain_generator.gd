@@ -1,7 +1,6 @@
 @tool
 extends Node2D
 
-@export var size : Vector2i
 @export_range(1, 99) var height = 1
 @export_tool_button("Regenerate TileMapLayers") var regenerate_tilemaps = _regenerate_tilemaps
 func _regenerate_tilemaps():
@@ -22,14 +21,23 @@ func _save():
 	for f in get_children():
 		result.append(f.tile_map_data)
 		
+	var size = Vector2i.ZERO
+	for l in get_children():
+		if l.get_used_rect().size.x > size.x:
+			size.x = l.get_used_rect().size.x
+		if l.get_used_rect().size.y > size.y:
+			size.y = l.get_used_rect().size.y
+		
+		
 	var hmap = []
 	for x in size.x:
 		var ax = []
 		for y in size.y:
+			var top = -1
 			for l in get_child_count():
-				if get_child(get_child_count()-l-1).get_cell_source_id(Vector2i(x,y))!=-1:
-					ax.append(get_child_count()-l)
-				else:ax.append(-1)
+				if get_child(l).get_cell_source_id(Vector2i(x,y)) != -1:
+					top = l
+			ax.append(top)
 		hmap.append(ax)
 	print(hmap)
 	
