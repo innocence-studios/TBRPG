@@ -1,6 +1,10 @@
 extends Node2D
 
-var actions = ["move", "fire"]
+var actors : Array[String] = ["Knight","Mage","Gob"]
+var current_actor : int = 0:
+	set(value):
+		%CurrentActor.text = actors[value]
+		current_actor = value
 
 var current_action : Action
 
@@ -46,17 +50,15 @@ var target : Array[Vector3i] = [Vector3i.ZERO]
 
 func _process(_delta):
 	%FPS.text=str(Engine.get_frames_per_second())
-		
+
 	var camera_motion = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
 	$Camera2D.position += camera_motion*4
-		
-	
+
 	prompt()
 	
-
 func _on_action_pressed() -> void:
 	%ActionsMenu.clear()
-	for i in actions:
+	for i in $Actors.get_node(actors[current_actor]).actions:
 		%ActionsMenu.add_item(i)
 	%ActionsMenu.popup()
 	%Action.disabled = true
@@ -66,7 +68,7 @@ func _on_actions_menu_index_pressed(index: int) -> void:
 	current_action = load("Actions/Resources/"+%ActionsMenu.get_item_text(index)+".tres")
 	
 	%ActionPlayer.set_script(current_action.action_script)
-	%ActionPlayer.caster = $Allies.get_child(0)
+	%ActionPlayer.caster = $Actors.get_node(actors[current_actor])
 	%ActionCursor.texture = load(current_action.cursor)
 	
 	%ActionsMenu.visible = false
@@ -114,6 +116,11 @@ func prompt():
 				%ActionPlayer.target = target
 				%ActionPlayer.start()
 				target = [Vector3i.ZERO]
+				
+				if current_actor + 1 < actors.size(): current_actor += 1
+				else: current_actor = 0
+				
+				
 				current_prompt = PROMPTS.NONE
 			elif Input.is_action_just_pressed("escape"):
 				current_prompt = PROMPTS.SELECTTILE

@@ -1,6 +1,8 @@
 extends Node2D
 class_name Actor
 
+@export var alignement : String
+@export var actions : Array[String]
 var current_tile = Vector3i(0,0,0)
 var next_tile = Vector3i(0,0,0)
 

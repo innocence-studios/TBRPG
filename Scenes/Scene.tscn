@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4v4gi3aqtxcq"]
+[gd_scene load_steps=9 format=3 uid="uid://b4v4gi3aqtxcq"]
 
 [ext_resource type="Script" uid="uid://c4uqyhdycy8m7" path="res://Scenes/Scene.gd" id="1_p75jc"]
 [ext_resource type="Script" uid="uid://bi2i3rdg2gxb5" path="res://Scenes/terrain.gd" id="2_4yr6h"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bohwdtkx8dfgg" path="res://Actions/Cursors/Move.png" id="2_v3fvj"]
 [ext_resource type="Script" uid="uid://bu8871w4nhu7m" path="res://Scenes/Actors/Actor.gd" id="3_d84kf"]
 [ext_resource type="Texture2D" uid="uid://uxn5r68lptk4" path="res://Scenes/Actors/Assets/Knight.png" id="3_p75jc"]
+[ext_resource type="Texture2D" uid="uid://bu5fewyalkygu" path="res://Scenes/Actors/Assets/WhiteMage.png" id="7_s7xl2"]
+[ext_resource type="Texture2D" uid="uid://ch3sfflxyowxd" path="res://Scenes/Actors/Assets/BlackMage.png" id="8_g6k5w"]
 
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_p75jc")
@@ -14,7 +16,7 @@ script = ExtResource("1_p75jc")
 scroll_scale = Vector2(0.1, 0)
 scroll_offset = Vector2(256, 144)
 repeat_size = Vector2(307.2, 0)
-repeat_times = 6
+repeat_times = 5
 
 [node name="ScatteredCloudsSky" type="Sprite2D" parent="ParallaxLayer"]
 texture_filter = 2
@@ -71,19 +73,55 @@ text = "Action"
 unique_name_in_owner = true
 initial_position = 1
 
-[node name="Allies" type="Node2D" parent="."]
+[node name="CurrentActor" type="Label" parent="CanvasLayer/Combat"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Knight"
 
-[node name="Player" type="Node2D" parent="Allies"]
+[node name="Actors" type="Node2D" parent="."]
+
+[node name="Knight" type="Node2D" parent="Actors"]
 script = ExtResource("3_d84kf")
+alignement = "Player"
+actions = Array[String](["move"])
 metadata/_custom_type_script = ExtResource("3_d84kf")
 
-[node name="Sprite2D" type="Sprite2D" parent="Allies/Player"]
+[node name="Sprite2D" type="Sprite2D" parent="Actors/Knight"]
 position = Vector2(0, -5)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_p75jc")
 vframes = 2
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Mage" type="Node2D" parent="Actors"]
+script = ExtResource("3_d84kf")
+alignement = "Player"
+actions = Array[String](["fire", "move"])
+metadata/_custom_type_script = ExtResource("3_d84kf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Actors/Mage"]
+position = Vector2(0, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_s7xl2")
+vframes = 2
+
+[node name="Gob" type="Node2D" parent="Actors"]
+script = ExtResource("3_d84kf")
+alignement = "Goblins"
+actions = Array[String](["move", "fire"])
+metadata/_custom_type_script = ExtResource("3_d84kf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Actors/Gob"]
+position = Vector2(0, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_g6k5w")
+vframes = 2
 
 [connection signal="pressed" from="CanvasLayer/Combat/Action" to="." method="_on_action_pressed"]
 [connection signal="index_pressed" from="CanvasLayer/Combat/ActionsMenu" to="." method="_on_actions_menu_index_pressed"]

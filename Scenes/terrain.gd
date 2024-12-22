@@ -78,16 +78,16 @@ func get_top_tile(coords:Vector2i):
 			return heightmap[coords.x][coords.y]
 	return -1
 
-func get_shape_from_tile(coords:Vector3i, shape:Array[Vector3i], rotation:int) -> Array[Vector3i] :
+func get_shape_from_tile(coords:Vector3i, shape:Array[Vector3i], rot:int) -> Array[Vector3i] :
 	var result : Array[Vector3i] = [coords]
 	for i in shape:
-		if rotation == 0:
+		if rot == 0:
 			result.append(Vector3i(coords.x+i.x,coords.y+i.y,get_top_tile(Vector2i(coords.x+i.x,coords.y+i.y))))
-		elif rotation == 1:
+		elif rot == 1:
 			result.append(Vector3i(coords.x+i.y,coords.y+i.x,get_top_tile(Vector2i(coords.x+i.y,coords.y+i.x))))
-		elif rotation == 2:
+		elif rot == 2:
 			result.append(Vector3i((coords.x-i.x),(coords.y-i.y),get_top_tile(Vector2i(coords.x-i.x,coords.y-i.y))))
-		elif rotation == 3:
+		elif rot == 3:
 			result.append(Vector3i((coords.x-i.y),(coords.y-i.x),get_top_tile(Vector2i(coords.x-i.y,coords.y-i.x))))
 	return result
 
