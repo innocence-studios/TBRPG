@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Action" load_steps=3 format=3 uid="uid://dxhlokd1pmhd2"]
+
+[ext_resource type="Script" path="res://Actions/Scripts/blood_ritual.gd" id="1_bi43f"]
+[ext_resource type="Script" uid="uid://dtcqdlwuxjq8v" path="res://Actions/Action.gd" id="1_dtbq2"]
+
+[resource]
+script = ExtResource("1_dtbq2")
+name = "Blood Ritual"
+cursor = "uid://bk2rvsq1x0oep"
+shape = Array[Vector3i]([Vector3i(-1, 0, 0), Vector3i(1, 0, 0), Vector3i(0, -1, 0), Vector3i(0, 1, 0), Vector3i(-2, 0, 0), Vector3i(2, 0, 0), Vector3i(0, -2, 0), Vector3i(0, 2, 0), Vector3i(-3, 0, 0), Vector3i(3, 0, 0), Vector3i(0, -3, 0), Vector3i(0, 3, 0), Vector3i(-4, 0, 0), Vector3i(4, 0, 0), Vector3i(0, -4, 0), Vector3i(0, 4, 0), Vector3i(-1, -1, 0), Vector3i(-1, 1, 0), Vector3i(1, -1, 0), Vector3i(1, 1, 0)])
+mp_cost = 0
+ap_cost = 0
+range = 0.0
+line_of_sight = false
+action_script = ExtResource("1_bi43f")
+metadata/_custom_type_script = ExtResource("1_dtbq2")

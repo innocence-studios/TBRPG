@@ -6,7 +6,11 @@
 [resource]
 script = ExtResource("1_oxw8q")
 name = "Fire"
-action_script = ExtResource("1_jyvtc")
 cursor = "uid://bk2rvsq1x0oep"
 shape = Array[Vector3i]([Vector3i(1, 0, 0), Vector3i(-1, 0, 0), Vector3i(0, -1, 0), Vector3i(0, 1, 0)])
+mp_cost = 0
+ap_cost = 0
+range = 0.0
+line_of_sight = false
+action_script = ExtResource("1_jyvtc")
 metadata/_custom_type_script = ExtResource("1_oxw8q")

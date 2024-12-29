@@ -1,38 +1,9 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cqj5xhh8r2dd2"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cqj5xhh8r2dd2"]
 
-[ext_resource type="Texture2D" uid="uid://b2vgc4t1ln0wo" path="res://Scenes/Assets/highlight.png" id="1_emglp"]
-[ext_resource type="Texture2D" uid="uid://ddvfskhpf7mdi" path="res://Scenes/Assets/highlight2.png" id="2_lx6oa"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lx6oa"]
-texture = ExtResource("1_emglp")
-texture_region_size = Vector2i(64, 64)
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-4:1/0 = 0
-5:1/0 = 0
-6:1/0 = 0
-3:2/0 = 0
-4:2/0 = 0
-5:2/0 = 0
-6:2/0 = 0
-0:0/0 = 0
-1:0/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-7:2/0 = 0
-7:1/0 = 0
-7:0/0 = 0
-6:0/0 = 0
+[ext_resource type="Texture2D" uid="uid://ddvfskhpf7mdi" path="res://Scenes/Assets/highlight.png" id="1_emglp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_03scd"]
-texture = ExtResource("2_lx6oa")
+texture = ExtResource("1_emglp")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -154,5 +125,4 @@ texture_region_size = Vector2i(32, 32)
 tile_shape = 1
 tile_layout = 5
 tile_size = Vector2i(32, 16)
-sources/0 = SubResource("TileSetAtlasSource_lx6oa")
 sources/1 = SubResource("TileSetAtlasSource_03scd")

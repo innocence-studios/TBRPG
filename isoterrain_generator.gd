@@ -1,6 +1,8 @@
 @tool
 extends Node2D
 
+@export var blacklist : Array[Vector2i]
+
 @export_range(1, 99) var height = 1
 @export_tool_button("Regenerate TileMapLayers") var regenerate_tilemaps = _regenerate_tilemaps
 func _regenerate_tilemaps():
@@ -37,6 +39,9 @@ func _save():
 			for l in get_child_count():
 				if get_child(l).get_cell_source_id(Vector2i(x,y)) != -1:
 					top = l
+					if blacklist.has(
+						get_child(l).get_cell_atlas_coords(Vector2i(x,y))
+						):top = -1
 			ax.append(top)
 		hmap.append(ax)
 	print(hmap)
