@@ -1,11 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4v4gi3aqtxcq"]
+[gd_scene load_steps=11 format=3 uid="uid://b4v4gi3aqtxcq"]
 
 [ext_resource type="Script" uid="uid://c4uqyhdycy8m7" path="res://Scenes/Scene.gd" id="1_p75jc"]
 [ext_resource type="Script" uid="uid://bi2i3rdg2gxb5" path="res://Scenes/terrain.gd" id="2_4yr6h"]
 [ext_resource type="Texture2D" uid="uid://ddyvg8m37p4gk" path="res://Scenes/Assets/Pixel Skies/Starry Sky/Starry Sky 8 Blended.png" id="2_qswnl"]
 [ext_resource type="Texture2D" uid="uid://bohwdtkx8dfgg" path="res://Actions/Cursors/Move.png" id="2_v3fvj"]
 [ext_resource type="Script" uid="uid://bu8871w4nhu7m" path="res://Scenes/Actors/Actor.gd" id="3_d84kf"]
-[ext_resource type="Texture2D" uid="uid://ch3sfflxyowxd" path="res://Scenes/Actors/Assets/BlackMage.png" id="8_g6k5w"]
+[ext_resource type="Texture2D" uid="uid://c64neds4r5g3a" path="res://Scenes/Actors/Knight/knight0.png" id="7_s7xl2"]
+[ext_resource type="Texture2D" uid="uid://uytyfqs6arki" path="res://Scenes/Actors/Knight/knight1.png" id="8_g6k5w"]
+[ext_resource type="Texture2D" uid="uid://bktc56e2yvura" path="res://Scenes/Actors/Knight/knight2.png" id="9_347al"]
+[ext_resource type="Texture2D" uid="uid://1ai0al8lyjms" path="res://Scenes/Actors/Knight/knight3.png" id="10_xxbjm"]
+[ext_resource type="Texture2D" uid="uid://b1l7u3itw2qn7" path="res://Scenes/Actors/Knight/knight4.png" id="11_m02t5"]
 
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_p75jc")
@@ -78,25 +82,23 @@ text = "Action"
 unique_name_in_owner = true
 initial_position = 1
 
-[node name="CharacterCard" type="Label" parent="CanvasLayer/Combat"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -0.5
-offset_right = 0.5
-offset_bottom = 23.0
-grow_horizontal = 2
-pivot_offset = Vector2(32, 48)
-
 [node name="Actors" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="Gob" type="Node2D" parent="Actors"]
 script = ExtResource("3_d84kf")
+max_health = 1
 alignement = "Goblins"
 actions = Array[String](["move", "blood_ritual"])
-sprite = ExtResource("8_g6k5w")
+sprites = Array[Texture2D]([ExtResource("7_s7xl2"), ExtResource("8_g6k5w"), ExtResource("9_347al"), ExtResource("10_xxbjm"), ExtResource("11_m02t5")])
+metadata/_custom_type_script = ExtResource("3_d84kf")
+
+[node name="Actor" type="Node2D" parent="Actors"]
+script = ExtResource("3_d84kf")
+max_health = 1
+alignement = "Player"
+actions = Array[String](["move", "blood_ritual"])
+sprites = Array[Texture2D]([ExtResource("7_s7xl2"), ExtResource("8_g6k5w"), ExtResource("9_347al"), ExtResource("10_xxbjm"), ExtResource("11_m02t5")])
 metadata/_custom_type_script = ExtResource("3_d84kf")
 
 [connection signal="pressed" from="CanvasLayer/Combat/Action" to="." method="_on_action_pressed"]

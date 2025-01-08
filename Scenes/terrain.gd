@@ -2,7 +2,7 @@ extends Node2D
 class_name Terrain
 
 var base
-var render
+var render : TileMapLayerGroup
 var highlight
 var heightmap
 
@@ -100,3 +100,9 @@ func highlight_tiles(cells: Array):
 				Vector2i(c.x-c.z, c.y-c.z),
 				base.get_cell_source_id(c.z, Vector2i(c.x, c.y)),
 				base.get_cell_atlas_coords(c.z, Vector2i(c.x, c.y)))
+
+func get_actor_at_tile(tile:Vector3i):
+	for a in %Actors.get_children():
+		if a.current_tile == tile:
+			return a
+	return

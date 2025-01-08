@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwox46vwnbkd"
-path="res://.godot/imported/Tiles.png-3107dda071954ab23200ada81bf130fc.ctex"
+uid="uid://1ai0al8lyjms"
+path="res://.godot/imported/knight3.png-4caa694b5bf5b41fa4fdc62315e1b212.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Assets/Old/Tiles.png"
-dest_files=["res://.godot/imported/Tiles.png-3107dda071954ab23200ada81bf130fc.ctex"]
+source_file="res://Scenes/Actors/Knight/knight3.png"
+dest_files=["res://.godot/imported/knight3.png-4caa694b5bf5b41fa4fdc62315e1b212.ctex"]
 
 [params]
 

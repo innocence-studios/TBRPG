@@ -1,10 +1,15 @@
 extends Node2D
 
-var actors : Array[String] = ["Gob"]
+@onready var actors : Array[Node] = %Actors.get_children()
 var current_actor : int = 0:
 	set(value):
-		%CharacterCard.text = actors[value]
-		current_actor = value
+		if actors.is_empty():
+			get_tree().quit()
+		else:
+			for a in actors:
+				a.characard.hide()
+			actors[value].characard.show()
+			current_actor = value
 
 var current_action : Action
 
@@ -36,7 +41,7 @@ var shaft : Array[Vector3i] = [
 	Vector3i(-4,-3,0),Vector3i(-1,-3,0),Vector3i(1,-3,0),Vector3i(4,-3,0),
 	Vector3i(-3,-4,0),Vector3i(-2,-4,0),Vector3i(3,-4,0),Vector3i(2,-4,0),]
 
-@onready var tile = %Terrain.get_top_tile(Vector2i(0,0))
+@onready var tile = %Terrain.get_top_tile(Vector2i(1,1))
 var target : Array[Vector3i] = [Vector3i.ZERO]:
 	set(value):
 		target=value
@@ -59,7 +64,7 @@ func _process(_delta):
 	
 func _on_action_pressed() -> void:
 	%ActionsMenu.clear()
-	for i in $Actors.get_node(actors[current_actor]).actions:
+	for i in actors[current_actor].actions:
 		%ActionsMenu.add_item(i)
 	%ActionsMenu.popup()
 	%Action.disabled = true
@@ -71,7 +76,7 @@ func _on_actions_menu_index_pressed(index: int) -> void:
 	else: current_prompt = PROMPTS.SELECTTILE_SHAPE
 	
 	%ActionPlayer.set_script(current_action.action_script)
-	%ActionPlayer.caster = $Actors.get_node(actors[current_actor])
+	%ActionPlayer.caster = actors[current_actor]
 	%ActionCursor.texture = load(current_action.cursor)
 	
 	%ActionsMenu.visible = false

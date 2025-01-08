@@ -7,3 +7,9 @@ var last_pos : Vector2
 ### Inventory
 var balance : float = 0.0
 var inventory : Array[String]
+
+### Combat
+enum DAMAGE {
+	PHYSICAL,
+	FIRE
+}
