@@ -4,22 +4,29 @@ class_name Actor
 var canvas_layer : CanvasLayer
 var characard : Control
 
+var main
+var scene
+var terrain
+
 @export var max_health : int
 var health: int :
 	set(value):
 		health = value
 		if characard:characard.hp = value
-		if health<=0:
-			queue_free()
-			get_node("/root/Scene").actors.erase(self)
+		if health<=0:queue_free()
 
 @export var alignement : String
 @export var actions : Array[String]
-@export var sprites : Array[Texture2D]
-var current_tile = Vector3i(0,0,0)
+@export var sprites : Array[String]
+var current_tile
 var path_to_next_tile : Array[Vector3i] = []
 
-func _ready() -> void:
+@export var move : int = 8
+@export var jump : int = 2
+
+func _ready() -> void:set_process(false)
+
+func init() -> void:
 	recalculate_sprite()
 	health = max_health
 	
@@ -30,23 +37,39 @@ func _ready() -> void:
 	characard.visible = false
 	canvas_layer.add_child(characard)
 	add_child(canvas_layer)
+	
+	current_tile = terrain.get_top_tile(Vector2i(1,1))
 
 func move_to_next_tile():
-	global_position.x = %Terrain.render.map_to_local(Vector2(path_to_next_tile[-1].x, path_to_next_tile[-1].y)).x
-	global_position.y = %Terrain.render.map_to_local(Vector2(path_to_next_tile[-1].x, path_to_next_tile[-1].y)).y
-	global_position.y -= (path_to_next_tile[-1].z+1) * 8
-	z_index = path_to_next_tile[-1].z
-	current_tile = path_to_next_tile[-1]
+	print(path_to_next_tile)
+	for i in path_to_next_tile:
+		global_position.x = terrain.render.map_to_local(Vector2(i.x, i.y)).x
+		global_position.y = terrain.render.map_to_local(Vector2(i.x, i.y)).y
+		global_position.y -= (i.z+1) * 8
+		z_index = i.z
+		current_tile = i
+		await get_tree().create_timer(0.5).timeout
 
 func recalculate_sprite():
 	var i=0
 	for s in sprites:
 		var sprite2d := Sprite2D.new()
 		add_child(sprite2d)
-		sprite2d.texture = s
+		sprite2d.texture = load("res://"+s)
 		sprite2d.position.y = -i*8
 		sprite2d.z_index = i
+		#sprite2d.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+		
+		#var sprite_seethrough := Sprite2D.new()
+		#sprite2d.add_child(sprite_seethrough)
+		#sprite_seethrough.texture = s
+		#sprite_seethrough.z_index=RenderingServer.CANVAS_ITEM_Z_MAX
+		#sprite_seethrough.modulate=Color("000000ff")
+		#sprite_seethrough.show_behind_parent = true
+		
 		i+=1
+		
+		
 
 func damage(damage:int, element:Global.DAMAGE):
 	health -= damage

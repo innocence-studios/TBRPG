@@ -8,10 +8,12 @@ func _on_start():
 		else:
 			blood = load("res://Actions/VFX/blood_ritual1.tscn").instantiate()
 		add_child(blood)
-		blood.global_position.x = %Terrain.render.map_to_local(Vector2(t.x, t.y)).x
-		blood.global_position.y = %Terrain.render.map_to_local(Vector2(t.x, t.y)).y
+		blood.global_position.x = get_parent().terrain.render.map_to_local(Vector2(t.x, t.y)).x
+		blood.global_position.y = get_parent().terrain.render.map_to_local(Vector2(t.x, t.y)).y
 		blood.global_position.y -= (t.z+1) * 8
 		blood.z_index = (t.z*2)+2
 		
-		var actor = %Terrain.get_actor_at_tile(t)
-		if actor: actor.damage(50, Global.DAMAGE.FIRE)
+		var actor = get_parent().terrain.get_actor_at_tile(t)
+		if actor: 
+			actor.damage(50, Global.DAMAGE.FIRE)
+			print("dmg")

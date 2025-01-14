@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TBRPG"
-run/main_scene="res://Scenes/Scene.tscn"
+run/main_scene="uid://33u3oi3sho5j"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://Logo.png"
 
@@ -47,6 +47,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 folder_colors={
 "res://Actions/": "blue",
 "res://Dialogues/": "yellow",
+"res://Graphics/": "pink",
 "res://Menu/": "teal",
 "res://Scenes/": "orange",
 "res://addons/": "gray"

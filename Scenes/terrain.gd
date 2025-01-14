@@ -6,7 +6,7 @@ var render : TileMapLayerGroup
 var highlight
 var heightmap
 
-@export var load_file : String
+var load_file : String
 func _load():
 	for c in get_children():
 		c.free()
@@ -14,7 +14,7 @@ func _load():
 	var data = JSON.parse_string(file)
 	var i = 0
 	base = TileMapLayerGroup.new()
-	base.tile_set = load("res://Scenes/Assets/Base.tres")
+	base.tile_set = load("res://Scenes/Base.tres")
 	add_child(base)
 	for f in data[0]:
 		var tilemap = TileMapLayer.new()
@@ -26,15 +26,17 @@ func _load():
 		i+=1
 	heightmap = data[1]
 
-func _ready() -> void:
+func init() -> void:
+	
+	print("init")
 	
 	_load()
 	base.visible = false
 	render = TileMapLayerGroup.new()
-	render.tile_set = load("res://Scenes/Assets/Render.tres")
+	render.tile_set = load("res://Scenes/Render.tres")
 	add_child(render)
 	highlight = TileMapLayerGroup.new()
-	highlight.tile_set = load("res://Scenes/Assets/Highlight.tres")
+	highlight.tile_set = load("res://Scenes/Highlight.tres")
 	add_child(highlight)
 	
 	for i in range(render.get_layers_count()):
@@ -102,7 +104,9 @@ func highlight_tiles(cells: Array):
 				base.get_cell_atlas_coords(c.z, Vector2i(c.x, c.y)))
 
 func get_actor_at_tile(tile:Vector3i):
-	for a in %Actors.get_children():
+	for a in get_node("..").actors.get_children():
 		if a.current_tile == tile:
 			return a
 	return
+
+func _ready() -> void:set_process(false)

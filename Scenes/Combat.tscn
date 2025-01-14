@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4v4gi3aqtxcq"]
+
+[ext_resource type="Script" uid="uid://c4uqyhdycy8m7" path="res://Scenes/combat.gd" id="1_s7a1o"]
+[ext_resource type="Texture2D" uid="uid://ddyvg8m37p4gk" path="res://Graphics/Starry Sky 8 Blended.png" id="2_ym1s2"]
+[ext_resource type="Texture2D" uid="uid://bohwdtkx8dfgg" path="res://Graphics/Move.png" id="3_khfr5"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_s7a1o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Debug" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FPS" type="Label" parent="CanvasLayer/Debug"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Combat" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Action" type="Button" parent="CanvasLayer/Combat"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+focus_mode = 0
+text = "Action"
+
+[node name="ActionsMenu" type="PopupMenu" parent="CanvasLayer/Combat"]
+unique_name_in_owner = true
+initial_position = 1
+
+[node name="ParallaxLayer" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.1, 0)
+scroll_offset = Vector2(256, 144)
+repeat_size = Vector2(307.2, 0)
+autoscroll = Vector2(1, 0)
+repeat_times = 5
+
+[node name="ScatteredCloudsSky" type="Sprite2D" parent="ParallaxLayer"]
+texture_filter = 2
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_ym1s2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="ActionPlayer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="ActionCursor" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("3_khfr5")
+
+[node name="MovePath" type="Line2D" parent="."]
+z_index = 11
+width = 1.0
+default_color = Color(1, 1, 1, 0.498039)
+
+[connection signal="pressed" from="CanvasLayer/Combat/Action" to="." method="_on_action_pressed"]
+[connection signal="index_pressed" from="CanvasLayer/Combat/ActionsMenu" to="." method="_on_actions_menu_index_pressed"]
+[connection signal="popup_hide" from="CanvasLayer/Combat/ActionsMenu" to="." method="_on_actions_menu_popup_hide"]

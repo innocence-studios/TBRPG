@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=4 uid="uid://x24ltfxdbj2v"]
 
 [ext_resource type="Script" uid="uid://cdenaccg3spul" path="res://isoterrain_generator.gd" id="1_ci25d"]
-[ext_resource type="TileSet" uid="uid://bgv8dj27ih1kj" path="res://Scenes/Assets/Base.tres" id="2_8mj6u"]
+[ext_resource type="TileSet" uid="uid://bgv8dj27ih1kj" path="res://Scenes/Base.tres" id="2_8mj6u"]
 
 [node name="IsoterrainGenerator" type="Node2D"]
 script = ExtResource("1_ci25d")
